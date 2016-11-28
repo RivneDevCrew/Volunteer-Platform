@@ -1,0 +1,71 @@
+﻿@using VolunteerSystem.Models;
+@model VolunteerSystem.Models.CustomerRequest
+
+@{ string resName = String.Empty, whAlias = String.Empty; }
+@{
+    ViewBag.Title = "Видалення заявки";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Ви дійсно хочете видалити цю заявку?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        @{ using (var ctx = new ApplicationDbContext())
+            {
+                resName = ctx.Resources.Where(r => r.Id == Model.ResourceInfoId).Select(r => r.Description).FirstOrDefault();
+                whAlias = ctx.Warehouses.Where(w => w.Id == Model.WarehouseId).Select(w => w.Alias).FirstOrDefault();
+            }
+        }
+        <dt>
+            @Html.DisplayNameFor(model => model.ResourceInfoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => resName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Count)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Count)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WarehouseId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => whAlias)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DestinationState)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DestinationState)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DestinationCity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DestinationCity)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-default" /> |
+            @Html.ActionLink("Назад до списку", "Index")
+        </div>
+    }
+</div>

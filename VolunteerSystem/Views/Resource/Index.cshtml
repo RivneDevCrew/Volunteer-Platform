@@ -1,0 +1,25 @@
+﻿@using VolunteerSystem.Models;
+@{int count = (ViewBag.warehouses as List<string>).Count; }
+@{
+    ViewBag.Title = "Доступні ресурси";
+}
+
+<h2>Доступні ресурси</h2>
+<hr />
+
+@for(int i = 0; i < count; i++)
+{
+    <dl class="dl-horizontal">
+        <dt style="width: auto;">@ViewBag.warehouses[i]:</dt>
+        <content><br /></content>
+
+        @{List<ResourceDisplayModel> tmp = ViewBag.modelList[i] as List<ResourceDisplayModel>;}
+
+        @foreach (ResourceDisplayModel resource in tmp)
+        {
+            <dd>@resource.ToString()&nbsp;&nbsp;@if (User.IsInRole("User"))
+            { @Html.ActionLink("замовити", "Create", "Request", routeValues: new { @resource = resource.Description, @warehouse = ViewBag.warehouses[i] }, htmlAttributes: null) }</dd>
+        }
+    </dl>
+    <hr />
+}

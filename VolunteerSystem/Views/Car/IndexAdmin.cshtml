@@ -1,0 +1,50 @@
+﻿@using VolunteerSystem.Models;
+@model IEnumerable<VolunteerSystem.Models.Car>
+
+@{
+    ViewBag.Title = "Список ТЗ";
+}
+
+<h2>Всі транспортні засоби</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DriverId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Plate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CargoMaxWeight)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModelDescription)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    string driverName;
+    using(var ctx = new ApplicationDbContext())
+    {
+        driverName = ctx.Users.Where(u => u.Id == item.DriverId).Select(u => u.Name).FirstOrDefault();
+    }
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => driverName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Plate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CargoMaxWeight)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModelDescription)
+        </td>
+    </tr>
+}
+
+</table>

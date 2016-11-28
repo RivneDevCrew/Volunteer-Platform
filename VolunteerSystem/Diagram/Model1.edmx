@@ -1,0 +1,448 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="City" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="DateOfBirth" Type="datetime" Nullable="false" />
+          <Property Name="State" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DriverId" Type="nvarchar(max)" />
+          <Property Name="Plate" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CargoMaxWeight" Type="real" Nullable="false" />
+          <Property Name="ModelDescription" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomerRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResourceInfoId" Type="int" Nullable="false" />
+          <Property Name="Count" Type="real" Nullable="false" />
+          <Property Name="CustomerId" Type="nvarchar(max)" />
+          <Property Name="WarehouseId" Type="int" Nullable="false" />
+          <Property Name="DestinationState" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DestinationCity" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreationTime" Type="datetime" Nullable="false" />
+          <Property Name="DestinationTime" Type="datetime" Nullable="false" />
+          <Property Name="TransitTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="DriverId" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ResourceInfoes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ResType" Type="int" Nullable="false" />
+          <Property Name="ResMeasure" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResWarehouses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResourceInfoId" Type="int" Nullable="false" />
+          <Property Name="Count" Type="real" Nullable="false" />
+          <Property Name="WarehouseId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Warehouses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Alias" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="City" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="State" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Capacity" Type="real" Nullable="false" />
+          <Property Name="StoredResType" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cars" EntityType="Self.Cars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CustomerRequests" EntityType="Self.CustomerRequests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResourceInfoes" EntityType="Self.ResourceInfoes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResWarehouses" EntityType="Self.ResWarehouses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Warehouses" EntityType="Self.Warehouses" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <NavigationProperty Name="Cars" Relationship="Model.AspNetUsersCars" FromRole="AspNetUsers" ToRole="Cars" />
+          <NavigationProperty Name="CustomerRequests" Relationship="Model.AspNetUsersCustomerRequests" FromRole="AspNetUsers" ToRole="CustomerRequests" />
+        </EntityType>
+        <EntityType Name="Cars">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DriverId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Plate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CargoMaxWeight" Type="Single" Nullable="false" />
+          <Property Name="ModelDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Model.AspNetUsersCars" FromRole="Cars" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="CustomerRequests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResourceInfoId" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Single" Nullable="false" />
+          <Property Name="CustomerId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WarehouseId" Type="Int32" Nullable="false" />
+          <Property Name="DestinationState" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DestinationCity" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreationTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DestinationTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TransitTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="DriverId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ResourceInfoes" Relationship="Model.ResourceInfoesCustomerRequests" FromRole="CustomerRequests" ToRole="ResourceInfoes" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Model.AspNetUsersCustomerRequests" FromRole="CustomerRequests" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Warehouses" Relationship="Model.WarehousesCustomerRequests" FromRole="CustomerRequests" ToRole="Warehouses" />
+        </EntityType>
+        <EntityType Name="ResourceInfoes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ResType" Type="Int32" Nullable="false" />
+          <Property Name="ResMeasure" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ResWarehouses" Relationship="Model.ResourceInfoesResWarehouses" FromRole="ResourceInfoes" ToRole="ResWarehouses" />
+          <NavigationProperty Name="CustomerRequests" Relationship="Model.ResourceInfoesCustomerRequests" FromRole="ResourceInfoes" ToRole="CustomerRequests" />
+        </EntityType>
+        <EntityType Name="ResWarehouses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResourceInfoId" Type="Int32" Nullable="false" />
+          <Property Name="Count" Type="Single" Nullable="false" />
+          <Property Name="WarehouseId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ResourceInfoes" Relationship="Model.ResourceInfoesResWarehouses" FromRole="ResWarehouses" ToRole="ResourceInfoes" />
+          <NavigationProperty Name="Warehouses" Relationship="Model.WarehousesResWarehouses" FromRole="ResWarehouses" ToRole="Warehouses" />
+        </EntityType>
+        <EntityType Name="Warehouses">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Alias" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Capacity" Type="Single" Nullable="false" />
+          <Property Name="StoredResType" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ResWarehouses" Relationship="Model.WarehousesResWarehouses" FromRole="Warehouses" ToRole="ResWarehouses" />
+          <NavigationProperty Name="CustomerRequests" Relationship="Model.WarehousesCustomerRequests" FromRole="Warehouses" ToRole="CustomerRequests" />
+        </EntityType>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <EntitySet Name="Cars" EntityType="Self.Cars" />
+          <EntitySet Name="CustomerRequests" EntityType="Self.CustomerRequests" />
+          <EntitySet Name="ResourceInfoes" EntityType="Self.ResourceInfoes" />
+          <EntitySet Name="ResWarehouses" EntityType="Self.ResWarehouses" />
+          <EntitySet Name="Warehouses" EntityType="Self.Warehouses" />
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUsersCars" Association="Model.AspNetUsersCars">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Cars" EntitySet="Cars" />
+          </AssociationSet>
+          <AssociationSet Name="ResourceInfoesResWarehouses" Association="Model.ResourceInfoesResWarehouses">
+            <End Role="ResourceInfoes" EntitySet="ResourceInfoes" />
+            <End Role="ResWarehouses" EntitySet="ResWarehouses" />
+          </AssociationSet>
+          <AssociationSet Name="ResourceInfoesCustomerRequests" Association="Model.ResourceInfoesCustomerRequests">
+            <End Role="ResourceInfoes" EntitySet="ResourceInfoes" />
+            <End Role="CustomerRequests" EntitySet="CustomerRequests" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUsersCustomerRequests" Association="Model.AspNetUsersCustomerRequests">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="CustomerRequests" EntitySet="CustomerRequests" />
+          </AssociationSet>
+          <AssociationSet Name="WarehousesResWarehouses" Association="Model.WarehousesResWarehouses">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="ResWarehouses" EntitySet="ResWarehouses" />
+          </AssociationSet>
+          <AssociationSet Name="WarehousesCustomerRequests" Association="Model.WarehousesCustomerRequests">
+            <End Role="Warehouses" EntitySet="Warehouses" />
+            <End Role="CustomerRequests" EntitySet="CustomerRequests" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="AspNetUsersCars">
+          <End Type="Model.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+          <End Type="Model.Cars" Role="Cars" Multiplicity="*" />
+        </Association>
+        <Association Name="ResourceInfoesResWarehouses">
+          <End Type="Model.ResourceInfoes" Role="ResourceInfoes" Multiplicity="1" />
+          <End Type="Model.ResWarehouses" Role="ResWarehouses" Multiplicity="*" />
+        </Association>
+        <Association Name="ResourceInfoesCustomerRequests">
+          <End Type="Model.ResourceInfoes" Role="ResourceInfoes" Multiplicity="1" />
+          <End Type="Model.CustomerRequests" Role="CustomerRequests" Multiplicity="*" />
+        </Association>
+        <Association Name="AspNetUsersCustomerRequests">
+          <End Type="Model.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
+          <End Type="Model.CustomerRequests" Role="CustomerRequests" Multiplicity="*" />
+        </Association>
+        <Association Name="WarehousesResWarehouses">
+          <End Type="Model.Warehouses" Role="Warehouses" Multiplicity="1" />
+          <End Type="Model.ResWarehouses" Role="ResWarehouses" Multiplicity="*" />
+        </Association>
+        <Association Name="WarehousesCustomerRequests">
+          <End Type="Model.Warehouses" Role="Warehouses" Multiplicity="1" />
+          <End Type="Model.CustomerRequests" Role="CustomerRequests" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="Model.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Model.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="State" ColumnName="State" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="Model.Cars">
+              <MappingFragment StoreEntitySet="Cars">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DriverId" ColumnName="DriverId" />
+                <ScalarProperty Name="Plate" ColumnName="Plate" />
+                <ScalarProperty Name="CargoMaxWeight" ColumnName="CargoMaxWeight" />
+                <ScalarProperty Name="ModelDescription" ColumnName="ModelDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CustomerRequests">
+            <EntityTypeMapping TypeName="Model.CustomerRequests">
+              <MappingFragment StoreEntitySet="CustomerRequests">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ResourceInfoId" ColumnName="ResourceInfoId" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="WarehouseId" ColumnName="WarehouseId" />
+                <ScalarProperty Name="DestinationState" ColumnName="DestinationState" />
+                <ScalarProperty Name="DestinationCity" ColumnName="DestinationCity" />
+                <ScalarProperty Name="CreationTime" ColumnName="CreationTime" />
+                <ScalarProperty Name="DestinationTime" ColumnName="DestinationTime" />
+                <ScalarProperty Name="TransitTime" ColumnName="TransitTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="DriverId" ColumnName="DriverId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResourceInfoes">
+            <EntityTypeMapping TypeName="Model.ResourceInfoes">
+              <MappingFragment StoreEntitySet="ResourceInfoes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ResType" ColumnName="ResType" />
+                <ScalarProperty Name="ResMeasure" ColumnName="ResMeasure" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResWarehouses">
+            <EntityTypeMapping TypeName="Model.ResWarehouses">
+              <MappingFragment StoreEntitySet="ResWarehouses">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ResourceInfoId" ColumnName="ResourceInfoId" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+                <ScalarProperty Name="WarehouseId" ColumnName="WarehouseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Warehouses">
+            <EntityTypeMapping TypeName="Model.Warehouses">
+              <MappingFragment StoreEntitySet="Warehouses">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Alias" ColumnName="Alias" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="StoredResType" ColumnName="StoredResType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="Model.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

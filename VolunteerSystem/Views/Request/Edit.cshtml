@@ -1,0 +1,91 @@
+﻿@using Mvc.CascadeDropDown;
+@model VolunteerSystem.Models.CustomerRequest
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+   
+    <div class="form-horizontal">
+        <h4>CustomerRequest</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CustomerId)
+        @Html.HiddenFor(model => model.DestinationTime)
+        @Html.HiddenFor(model => model.Status)
+        @Html.HiddenFor(model => model.TransitTime)
+        @Html.HiddenFor(model => model.CreationTime)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ResourceInfoId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ResourceInfoId, (IEnumerable<SelectListItem>)ViewBag.resList,
+                                "-- Виберіть ресурс --", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ResourceInfoId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Count, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Count, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Count, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WarehouseId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CascadingDropDownListFor(
+                    expression: m => m.WarehouseId,
+                    triggeredByProperty: m => m.ResourceInfoId,
+                    url: Url.Action("GetWH", "Request"),
+                    ajaxActionParamName: "resourceId",
+                    optionLabel: "-- Виберіть склад --",
+                    disabledWhenParrentNotSelected: true,
+                    htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.WarehouseId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DestinationState, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.DestinationState, (IEnumerable<SelectListItem>)ViewBag.states,
+                                "-- Виберіть область --", new { @class = "form-control" })   
+                @Html.ValidationMessageFor(model => model.DestinationState, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DestinationCity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CascadingDropDownListFor(
+                    expression: m => m.DestinationCity,
+                    triggeredByProperty: m => m.DestinationState,
+                    url: Url.Action("GetCities", "Account"),
+                    ajaxActionParamName: "state",
+                    optionLabel: "-- Виберіть місто --",
+                    disabledWhenParrentNotSelected: true,
+                    htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DestinationCity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

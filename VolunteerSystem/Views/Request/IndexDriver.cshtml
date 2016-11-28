@@ -1,0 +1,71 @@
+﻿@using VolunteerSystem.Models;
+@model IEnumerable<VolunteerSystem.Models.CustomerRequest>
+
+@{ string whAlias = String.Empty; string resName = String.Empty; string customerName = String.Empty; }
+@{
+    ViewBag.Title = "Заявки";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ResourceInfoId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Count)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WarehouseId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DestinationState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DestinationCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreationTime)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        using (var ctx = new ApplicationDbContext())
+        {
+            customerName = ctx.Users.Where(u => u.Id == item.CustomerId).Select(u => u.Name).FirstOrDefault();
+            resName = ctx.Resources.Where(r => r.Id == item.ResourceInfoId).Select(r => r.Description).FirstOrDefault();
+            whAlias = ctx.Warehouses.Where(w => w.Id == item.WarehouseId).Select(w => w.Alias).FirstOrDefault();
+        }
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => resName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => customerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => whAlias)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DestinationState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DestinationCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationTime)
+            </td>
+            <td>@Html.ActionLink("За роботу", "ConfirmByDriver", new { id = item.Id } )</td>
+        </tr>
+    }
+
+</table>

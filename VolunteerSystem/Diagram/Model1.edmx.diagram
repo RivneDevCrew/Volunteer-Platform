@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="99809fa411dc4bf09ee667a7ead39de3" Name="Diagram1" ZoomLevel="97">
+        <EntityTypeShape EntityType="Model.AspNetRoles" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUsers" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Cars" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.CustomerRequests" Width="1.5" PointX="5.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ResourceInfoes" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.ResWarehouses" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Warehouses" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="Model.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.AspNetUsersCars" />
+        <AssociationConnector Association="Model.ResourceInfoesResWarehouses" />
+        <AssociationConnector Association="Model.ResourceInfoesCustomerRequests" />
+        <AssociationConnector Association="Model.AspNetUsersCustomerRequests" />
+        <AssociationConnector Association="Model.WarehousesResWarehouses" />
+        <AssociationConnector Association="Model.WarehousesCustomerRequests" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using VolunteerSystem.Models;
+
+@model IEnumerable<User>
+@{
+    ViewBag.Title = "Список користувачів";
+}
+
+<h2>Список всіх користувачів</h2><br />
+
+<table class="table">
+    <tr>
+        <th>
+            ПІБ
+        </th>
+        <th>
+            Область
+        </th>
+        <th>
+            Місто
+        </th>
+        <th>
+            Дата народження
+        </th>
+        <th>
+            E-mail
+        </th>
+        <th>
+            Адреса
+        </th>
+        <th>
+            Телефон
+        </th>
+        <th>
+            Роль
+        </th>
+        <th>
+            Статус
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+            @{
+                string dateValue = item.DateOfBirth.ToShortDateString();
+            }
+            <td>
+                @Html.DisplayFor(modelItem => dateValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            @if (UserManagerExtensions.IsInRole(new UserManager<User>(new UserStore<User>(new ApplicationDbContext())), item.Id, "Volunteer"))
+            {
+                <td>Волонтер</td>
+            }
+            else if (UserManagerExtensions.IsInRole(new UserManager<User>(new UserStore<User>(new ApplicationDbContext())), item.Id, "User"))
+            {
+                <td>Користувач</td>
+            }
+            else
+            {
+                <td>Адміністратор</td>
+            }
+            <td>
+                @Html.DisplayFor(modelitem => item.EmailConfirmed)
+            </td>
+            <td>
+                @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+</table>

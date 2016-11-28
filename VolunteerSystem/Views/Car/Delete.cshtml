@@ -1,0 +1,47 @@
+﻿@model VolunteerSystem.Models.Car
+
+@{
+    ViewBag.Title = "Видалення ТЗ";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h3>Ви дійсно хочете видалити цей транспортний засіб?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Plate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Plate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CargoMaxWeight)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CargoMaxWeight)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModelDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModelDescription)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Видалити" class="btn btn-default" /> |
+            @Html.ActionLink("Повернутися назад", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,102 @@
+﻿@model VolunteerSystem.Models.IndexViewModel
+@{
+    ViewBag.Title = "Особистий кабінет";
+    ViewBag.Confirmed = "Підтверджено";
+    ViewBag.NonConfirmed = "Не підтверджено"; 
+}
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h2>Особистий кабінет</h2>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Безпека</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Змінити пароль", "ChangePassword")
+            }
+            ]
+        </dd>
+        <content><br /></content>
+        <dt>Доступні дії</dt>
+        @if (User.IsInRole("Volunteer"))
+        {
+            <dd>[ @Html.ActionLink("Додати новий ресурс", "Create", "Resource") ]</dd>
+            <dd>[ @Html.ActionLink("Переглянути доступні ресурси", "Index", "Resource") ]</dd>
+        }
+        else if (User.IsInRole("Admin"))
+        {
+            <dd>[ @Html.ActionLink("Список всіх користувачів", "GetUsers", "Account") ]</dd>
+            <dd>[ @Html.ActionLink("Список всіх складів", "Index", "Warehouse") ]</dd>
+            <dd>[ @Html.ActionLink("Список доступних ресурсів", "Index", "Resource") ]</dd>
+            <dd>[ @Html.ActionLink("Історія заявок", "IndexAdmin", "Request") ]</dd>
+            <dd>[ @Html.ActionLink("Список транспортних засобів", "IndexAdmin", "Car") ]</dd>
+        }
+        else if (User.IsInRole("User"))
+        {
+            <dd>[ @Html.ActionLink("Додати заявку", "Create", "Request") ]</dd>
+            <dd>[ @Html.ActionLink("Переглянути ваші заявки", "Index", "Request") ]</dd>
+            <dd>[ @Html.ActionLink("Переглянути доступні ресурси", "Index", "Resource") ]</dd>
+        }
+        else if (User.IsInRole("Driver"))
+        {
+            <dd>[ @Html.ActionLink("Додати транспортний засіб", "Create", "Car") ]</dd>
+            <dd>[ @Html.ActionLink("Переглянути ваші транспортні засоби", "Index", "Car") ]</dd>
+            <dd>[ @Html.ActionLink("Переглянути заявки, що очікують виконання", "IndexDriver", "Request") ]</dd>
+            <dd>[ @Html.ActionLink("Переглянути заявки, що виконуються вами", "IndexProcessingByDriver", "Request") ]</dd>
+        }
+    </dl>
+    <dl class="dl-horizontal">
+        <dt>Особисті дані (@Html.ActionLink("змінити", "Edit", "Account", 
+                          routeValues: new { id = Model.Id }, htmlAttributes: null))</dt>
+        <content><br /></content>
+        <dd>
+            <b>E-mail:</b> @Model.Email
+        </dd>
+        <dd>
+            <b>ПІБ:</b> @Model.Name
+        </dd>
+        <dd>
+            <b>Місце реєстрації:</b> м. @Model.City ( @Model.State область )
+        </dd>
+        <dd>
+            <b>Телефон:</b> @Model.PhoneNumber
+        </dd>
+        <dd>
+            <b>Дата народження:</b> @Model.DateOfBirth.ToShortDateString()
+        </dd>
+        <dd>
+            <br />
+            <b>Статус: </b> @if (Model.EmailConfirmed)
+            { <span style="color: darkseagreen;">@ViewBag.Confirmed</span> }
+            else
+            { <span style="color:red">@ViewBag.NonConfirmed</span> }
+        </dd>
+        @*
+            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+
+             See <a href="http://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+
+             Uncomment the following block after you have set up two-factor authentication
+        *@
+        @*
+            <dt>Phone Number:</dt>
+            <dd>
+                @(Model.PhoneNumber ?? "None") [
+                @if (Model.PhoneNumber != null)
+                {
+                    @Html.ActionLink("Change", "AddPhoneNumber")
+                    @: &nbsp;|&nbsp;
+                    @Html.ActionLink("Remove", "RemovePhoneNumber")
+                }
+                else
+                {
+                    @Html.ActionLink("Add", "AddPhoneNumber")
+                }
+                ]
+            </dd>
+        *@
+    </dl>
+</div>

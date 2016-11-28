@@ -1,0 +1,107 @@
+﻿@using VolunteerSystem.Models;
+@model IEnumerable<VolunteerSystem.Models.CustomerRequest>
+
+@{ string whAlias = String.Empty; string resName = String.Empty; }
+@{
+    ViewBag.Title = "Заявки";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Створити нову заявку", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ResourceInfoId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Count)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WarehouseId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DestinationState)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DestinationCity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreationTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DestinationTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TransitTime)
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    using (var ctx = new ApplicationDbContext())
+    {
+        resName = ctx.Resources.Where(r => r.Id == item.ResourceInfoId).Select(r => r.Description).FirstOrDefault();
+        whAlias = ctx.Warehouses.Where(w => w.Id == item.WarehouseId).Select(w => w.Alias).FirstOrDefault();
+    }
+     <tr>
+         <td>
+             @Html.DisplayFor(modelItem => resName)
+         </td>
+         <td>
+             @Html.DisplayFor(modelItem => item.Count)
+         </td>
+         <td>
+             @Html.DisplayFor(modelItem => whAlias)
+         </td>
+         <td>
+             @Html.DisplayFor(modelItem => item.DestinationState)
+         </td>
+         <td>
+             @Html.DisplayFor(modelItem => item.DestinationCity)
+         </td>
+         <td>
+             @Html.DisplayFor(modelItem => item.CreationTime)
+         </td>
+         <td>
+             @Html.DisplayFor(modelItem => item.Status)
+         </td>
+         @if (item.Status == RequestStatus.Закрита)
+         {
+            <td>
+                @Html.DisplayFor(modelItem => item.DestinationTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransitTime)
+            </td>
+         }
+         else {
+            <td> --- </td>
+            <td> --- </td>
+         }
+        @if(item.Status == RequestStatus.Відкрита)
+        {
+            <td>@Html.ActionLink("Підтвердити", "Confirm", new { id = item.Id })</td>
+        }
+        else if (item.Status == RequestStatus.Очікує_підтвердження)
+        {
+            <td>@Html.ActionLink("Підтвердити виконання", "ConfirmProcessing", new { id = item.Id })</td>
+        }
+        @if (item.Status == RequestStatus.Відкрита)
+        {
+            <td>
+                @Html.ActionLink("Змінити", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Видалити", "Delete", new { id = item.Id })
+            </td>
+        }
+    </tr>
+}
+
+</table>
